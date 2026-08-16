@@ -1,0 +1,20 @@
+#Application: Deployment health daemon to keep critical local services active automatically.
+
+#Challenge 10: Web Server Daemon Watchdog
+
+#    Based on Script 10: Automatic Service Watchdog & Restarter (watchdog.sh)
+
+#    Concepts Tested: pgrep, if-else conditionals, system service restart command.
+
+#    The Problem: Write a script that checks if the nginx web server process is actively running using pgrep. If running, display "[OK] Nginx is running". If not found, output "[ALERT] Nginx is down! Attempting restart..." and execute sudo systemctl start nginx.
+
+
+#!/bin/bash
+SERVICE="nginx"
+
+if pgrep "$SERVICE" > /dev/null; then
+    echo "[OK] Nginx is running"
+else
+    echo "[ALERT] Nginx is down! Attempting restart..."
+    systemctl restart "$SERVICE" 
+fi
