@@ -1,0 +1,27 @@
+#Challenge 6: System Maintenance Lock Guard
+
+ #   Based on Script 6: Atomic Process Lock File Manager (lock_manager.sh)
+
+#    Concepts Tested: trap on EXIT/SIGINT, lockfile existence test ([ -e ]), storing process ID ($$), clean removal.
+
+ #   The Problem: Write a script that creates a lockfile at /tmp/maint.lock upon starting and writes its Process ID ($$) into it. Register a trap to ensure the lockfile is deleted whenever the script exits or is interrupted. If the lockfile already exists when the script starts, print the active PID holding the lock and terminate immediately.
+
+#!/bin/bash
+LOCKFILE="/tmp/maint.lock"
+
+cleanup() {
+    rm -f LOCKFILE
+    echo "lockfile removed"
+}
+trap cleanup EXIT SIGINT 
+
+if [ -e $LOCKFILE ]; then
+    echo "$(cat "$LOCKFILE") is already running"
+    exit 1
+fi 
+
+echo $$> "$LOCKFILE"
+echo "lock acquired (PID: $$). Performing maintenance tasks..."
+sleep 5 # Simulate long execution
+
+

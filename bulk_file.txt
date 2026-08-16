@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+directory="${1:-.}"
+for file in "${directory}"/*
+do
+	[ -f "$file" ] || continue
+	mv "$file" "${file%log}.txt"
+	echo "${file%log}.txt"
+done

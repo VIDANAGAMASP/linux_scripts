@@ -1,0 +1,29 @@
+#//////////////////////////////////////////////////////////////////////////////////////////////
+
+#Application: Fast network discovery script for diagnosing local network connection issues without installing external tools like nmap.
+
+
+#Challenge 5: Parallel IP Reachability Scanner
+#Based on Script 5: Parallel Subnet Ping Sweep (ping_sweep.sh)
+#Concepts Tested: Subnet variable string, range expansion {1..N}, background jobs (&), ping -c 1 -W 1, wait.
+#The Problem: Write a script that scans IP addresses from 10.0.0.1 to 10.0.0.25 in parallel using background execution (&). Send a single ping packet to each host. If reachable, print "[ONLINE] 10.0.0.X". Use wait to ensure the script prints "Scan Complete" only after all background pings finish.
+
+
+#////////////////////////////////////////////////////////////////////////////////////////////////
+
+#!/bin/bash
+SUBNET="127.0.0"
+echo "Scanning subnet ${SUBNET}.0/24..."
+
+for host in {1..20};
+do
+    (
+        if ping -c 1 -w 1 "${SUBNET}.${host}" >/dev/null 2>&1;
+        then
+            echo "Host ${SUBNET}.${host} is ONLINE"
+        fi
+    )&
+
+done
+
+wait

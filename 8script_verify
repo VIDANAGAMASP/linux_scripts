@@ -1,0 +1,50 @@
+Script 8: Missing Tool Dependency Guard (check_deps.sh)
+
+Validates that required command-line utilities exist on the system before executing main tasks.
+
+    Concepts: command -v, conditional lists (||), defensive programming.
+
+Bash
+
+#!/bin/bash
+set -euo pipefail
+
+REQUIRED_TOOLS=("curl" "jq" "tar" "git")
+
+echo "Verifying environment dependencies..."
+
+for tool in "${REQUIRED_TOOLS[@]}"; do
+    if ! command -v "$tool" > /dev/null 2>&1; then
+        echo " [ERROR] Required utility '$tool' is not installed."
+        MISSING=1
+    else
+        echo " [OK] Found '$tool' at $(command -v "$tool")"
+    fi
+done
+
+if [ "${MISSING:-0}" -eq 1 ]; then
+    echo "Environment check failed. Install missing dependencies and re-run."
+    exit 1
+fi
+
+Application: Include at the top of complex installer or setup scripts to fail early with helpful messages if tools are missing.
+
+
+Challenge 8: Container Toolchain Verifier
+
+    Based on Script 8: Missing Tool Dependency Guard (check_deps.sh)
+
+    Concepts Tested: Array of binary names, command -v, strict execution flags (set -euo pipefail), tracking failure state.
+
+    The Problem: Write a deployment pre-check script that verifies if docker, kubectl, helm, and git are installed on the local system using command -v. Iterate through the list, report missing tools, and exit with status code 1 if at least one tool is missing.
+
+    #!/bin/bash
+    set -euo pipefail
+
+    REQUIRED_TOOLD=(
+        "docker"
+        "kubectl"
+        "helm"
+        "git"
+    )
+
