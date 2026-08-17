@@ -1,0 +1,24 @@
+#Challenge 13: Project Directory Size Analyzer & Packager
+
+#   Based on Script 13: Bulk Image File Compressor (compress_assets.sh)
+
+#   Concepts Tested: Directory test ([ ! -d ]), size calculation with du -sh, cut -f1, tar -czf.
+
+#   The Problem: Write a script that accepts a project directory path as an argument. Check if the directory exists. Calculate and print its uncompressed size using du and cut. Compress the entire folder into project_backup.tar.gz, then output the final size of the created tarball.
+
+#!/bin/bash
+PROJECT_DIR= ${1:-./image}
+
+if [ ! -d ${PROJECT_DIR}]; then
+    echo "Directory ${PROJECT_DIR} not found."
+    exit 1
+fi
+
+INITIAL_SIZE= $(du -sh "$PROJECT_DIR" | cut -f1)
+
+tar -czf "${PROJECT_DIR}_backup.tar.gz" -C "$PROJECT_DIR" .
+
+FINAL_SIZE= $(du -sh "${PROJECT_DIR}_backup.tar.gz" | cut -f1)
+
+
+
