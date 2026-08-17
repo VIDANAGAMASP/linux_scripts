@@ -21,6 +21,6 @@ clear
 
 echo "Username  : $(whoami)"
 echo  "kernel version : $(uname -r)"
-echo "System uptime: $(uptime | awk F'up' '{print $2} | awk -F',' '{print $1}')"
-free -m | awk 'NR=2 {printf free: %sMB / Total: %sMB (%.2f%%)\n", $3, $2, $3*100/$2}'
+echo "System uptime: $(uptime | awk -F'up ' '{print $2}' | awk -F',' '{print $1}')"
+free -m | awk 'NR==2 {printf "free: %sMB / Total: %sMB %.2f%%\n", $3, $2, $3*100/$2}'
 ps aux --sort=-%mem | awk 'NR>=2 && NR<=4 {printf "  PID: %-6s MEM: %-5s\n", $2, $4}'
