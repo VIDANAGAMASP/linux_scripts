@@ -1,0 +1,26 @@
+#Application: Add to ~/.bashrc to auto-display server metrics every time you log into an SSH terminal session.
+
+#Challenge 11: Developer Workstation Morning Overview
+
+#   Based on Script 11: Dynamic System Metric Dashboard (dashboard.sh)
+
+#   Concepts Tested: Screen clearing (clear), string formatting, whoami, uname -r, uptime, free -m, ps aux, awk.
+
+#   The Problem: Write a script that clears the terminal and prints a clean summary containing:
+
+#       Current Username (whoami) & System Kernel version (uname -r).
+
+#       System Uptime.
+
+#       Total vs. Free Swap Space in MB using free -m and awk.
+
+#       Top 3 CPU-consuming processes using ps aux and awk.
+
+#!/bin/bash
+clear
+
+echo "Username  : $(whoami)"
+echo  "kernel version : $(uname -r)"
+echo "System uptime: $(uptime | awk F'up' '{print $2} | awk -F',' '{print $1}')"
+free -m | awk 'NR=2 {printf free: %sMB / Total: %sMB (%.2f%%)\n", $3, $2, $3*100/$2}'
+ps aux --sort=-%mem | awk 'NR>=2 && NR<=4 {printf "  PID: %-6s MEM: %-5s\n", $2, $4}'
