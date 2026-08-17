@@ -1,0 +1,24 @@
+#   The Problem: Build an interactive terminal control menu with the following choices:
+
+
+#!/bin/bash
+show_menu(){
+    echo "ADMINISTRATOR MENU"
+    echo "1. Show Local IP Addresses"
+    echo "2. Show Free Disk Space"
+    echo "3. Count Running Processes"
+    echo "4. Exit"
+}
+
+while true; do 
+    show_menu
+    read "Select an option" CHOICE
+    case "$CHOICE" in
+        1) hostname -I;;
+        2) df -h /;;
+        3)ps aux | wc -l;;
+        4)echo "exit" ; break;;
+        *) echo "Invalid";;
+    esac
+
+done

@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-THRESHOLD=80
-for ((i=1; i<$(df -i| wc -l); i++))
-do
-	row="$i"
-	echo $(df -i | awk -v row="$row" 'NR==row {print $5}')
-done
