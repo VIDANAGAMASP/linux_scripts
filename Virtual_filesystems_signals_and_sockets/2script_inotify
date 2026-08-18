@@ -1,0 +1,35 @@
+Script 2: Real-Time Filesystem Sentinel Daemon (inotify)
+
+Question: How do you construct an event-driven daemon that continuously watches a directory for new file creations using kernel notification APIs (inotifywait) and automatically moves them to a staging path based on file extension?
+Bash
+
+WATCH_DIR="/tmp/watch_input"
+TARGET_DIR="/tmp/watch_output"
+
+mkdir -p "$WATCH_DIR" "$TARGET_DIR"
+
+echo "Monitoring $WATCH_DIR for incoming file events..."
+
+inotifywait -m -e create -e moved_to --format '%w%f' "$WATCH_DIR" | while read -r FILEPATH; do
+    if [[ "$FILEPATH" == *.pdf ]]; then
+        echo "[EVENT] PDF Detected: $FILEPATH"
+        mv "$FILEPATH" "$TARGET_DIR/"
+    fi
+done
+
+#The Problem: Build an event-driven directory watcher for /tmp/raw_uploads. 
+#Whenever a new .png or .jpg image is created or moved into the directory, extract the filename, output "[INGEST] Processing <filename>", 
+#and move the file into /tmp/media_library/.
+
+#!/bin/bash
+set -euo pipefail
+
+WATCH_DIRECTORY="/tmp/raw_uploads"
+TARGET_DIRECTORY="/tmp/media_library"
+
+mkdir -p "$WATCH_DIRECTORY" "$TARGET_DIRECTORY"
+
+inotifywait -m -e create -e moved_to --format "%w%f" "$WATCH_DIRECTORY" | while read -r FILENAME; do
+    echo "[INGEST] Processing "$FILENAME"
+    mv "$FILENAME" "$TARGET_DIRECTORY"
+done
