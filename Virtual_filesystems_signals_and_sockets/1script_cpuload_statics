@@ -1,0 +1,11 @@
+#he Problem: Write a script that reads the ctxt (context switches) counter from /proc/stat. Take an initial reading, wait 1 second, take a second reading, and calculate the number of system context switches per second. Print: "Kernel Context Switches: X / sec".
+
+#!/bin/bash
+set -euo pipefail
+
+
+get_ctxt_stats() {
+    grep 'ctxt' /proc/stats | awk '{print $2}' 
+}
+
+read -r context<< $(get_ctxt_stats)
