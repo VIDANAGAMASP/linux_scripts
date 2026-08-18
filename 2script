@@ -1,4 +1,4 @@
-#Script 2: Bulk File Extension Renamer (bulk_rename.sh)
+#Bulk File Extension Renamer 
 
 #!/bin/bash
 TARGET_DIR="${1:-.}"
@@ -7,6 +7,6 @@ EXT_NEW="bak"
 
 for file in "$TARGET_DIR"/*."$EXT_OLD"; do
     [ -f "$file" ] || continue
-    base_name="${file%.$EXT_OLD}"
-    mv "$file" "${base_name}.${EXT_NEW}"
-    e
+    mv  "$file" "${file%.$EXT_OLD}"."$EXT_NEW"
+done
+
