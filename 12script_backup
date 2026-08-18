@@ -1,11 +1,3 @@
-#Application: Used in production CI/CD deployment scripts to ensure broken config files are automatically restored.
-
-#Challenge 12: Safe Environment File Updater
-
-#    Based on Script 12: Safe File Backup with Automatic Rollback (safe_deploy.sh)
-
-#    Concepts Tested: set -e, trap ... ERR, configuration backups with cp, automatic error rollback.
-
 #    The Problem: Write a script that updates a configuration file settings.env. Create a backup settings.env.bak before making changes. Register an ERR trap that restores the backup file if any command fails during execution. Append a new string FEATURE_FLAG=enabled to settings.env, and delete the backup file upon success.
 
 #!/bin/bash

@@ -1,5 +1,3 @@
-#Concepts Tested: Array declaration, for loop over array, curl -w "%{http_code}", status comparison (-eq).
-
 #The Problem: Define an array containing three local microservice URLs (e.g., http://localhost:8080/health, http://localhost:8081/health, http://localhost:8082/health). Loop through each URL, query it silently with curl, and print "[UP]" if the HTTP status code is 200 or "[DOWN]" if it returns any other code.
 
 

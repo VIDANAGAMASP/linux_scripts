@@ -1,0 +1,17 @@
+#Monitors primary disk partition usage and triggers a high-usage alert if consumption exceeds a numeric threshold.
+
+
+#!/bin/bash
+set -e
+
+THRESHOLD=80
+USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d '%')
+
+echo "Current Root Disk Usage: ${USAGE}%"
+
+if [ "$USAGE" -ge "$THRESHOLD" ]; then
+    echo "[ALERT] "
+else
+    echo "[OK] "
+fi
+

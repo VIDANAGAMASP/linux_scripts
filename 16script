@@ -1,0 +1,41 @@
+Script 16: Automated Directory Sync & Integrity Verification (sync_verify.sh)
+
+Copies files between two directories and verifies data integrity using MD5 hashes.
+
+    Concepts: rsync / cp, md5sum, for loop matching.
+
+Bash
+
+#!/bin/bash
+SRC="./src_dir"
+DEST="./dest_dir"
+
+mkdir -p "$SRC" "$DEST"
+# Create a test file if empty
+echo "Sample Content" > "$SRC/test.txt"
+
+echo "Syncing $SRC to $DEST..."
+cp -r "$SRC"/* "$DEST"/
+
+echo "Verifying file integrity..."
+for file in "$SRC"/*; do
+    filename=$(basename "$file")
+    SRC_HASH=$(md5sum "$file" | awk '{print $1}')
+    DEST_HASH=$(md5sum "$DEST/$filename" | awk '{print $1}')
+    
+    if [ "$SRC_HASH" == "$DEST_HASH" ]; then
+        echo " [MATCH] $filename ($SRC_HASH)"
+    else
+        echo " [MISMATCH] $filename integrity check failed!"
+    fi
+done
+
+Application: Verifies that file backup copies match the source files bit-for-bit without corruption.
+
+Challenge 16: Staging to Production File Mirror Assurer
+
+    Based on Script 16: Automated Directory Sync & Integrity Verification (sync_verify.sh)
+
+    Concepts Tested: Directory creation (mkdir -p), recursive copying (cp -r), basename, md5sum, awk, string equality (==).
+
+    The Problem: Write a script that copies all files from ./staging into ./production. After copying, iterate through every file in ./staging, calculate MD5 hashes for both the original file and its corresponding copy in ./production, and output "[MATCH]" or "[MISMATCH]" for each file verified.

@@ -1,9 +1,3 @@
-#Challenge 14: TLS Expiry Countdown Monitor
-
-#   Based on Script 14: SSL Certificate Expiry Checker (check_ssl.sh)
-
-#   Concepts Tested: openssl s_client, x509, cut, Unix timestamp conversion (date +%s), integer arithmetic $(( ... )), -lt.
-
 #   The Problem: Write a script that connects to github.com on port 443 using openssl. Extract its certificate expiration date, convert both the expiration date and current time to Epoch seconds, calculate the days remaining, and print a warning if the certificate expires in less than 60 days.
 
 #!/bin/bash
