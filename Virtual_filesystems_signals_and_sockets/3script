@@ -1,0 +1,24 @@
+#The Problem: Write a script that takes a process ID (PID) as an argument. Read /proc/$PID/smaps_rollup to extract the Swap: memory line. Output the process command name (from /proc/$PID/comm) and display its total swapped memory in Megabytes ($MB$).
+
+#!/bin/bash
+
+PID=${1:-$$}
+
+SMAPS_FILE="/proc/$PID/smaps_rollup"
+
+if [[ ! -f "$SMAPS_FILE" ]]; then
+    echo "$PID not found"
+    exit 1
+fi
+
+read -r swap_kb <<< $(awk '/^Swap:/ {print $2}' "$SMAPS_FILE")
+echo "$((swap_kb/1024)) MB "
+
+
+echo "Process name: $(cat "/proc/${PID}/comm")"
+
+
+
+
+
+
