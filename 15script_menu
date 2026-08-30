@@ -16,7 +16,7 @@ while true; do
     case "$CHOICE" in
         1) hostname -I;;
         2) df -h /;;
-        3)ps aux | wc -l;;
+        3)ps aux |tail -n +2 | wc -l;;
         4)echo "exit" ; break;;
         *) echo "Invalid";;
     esac

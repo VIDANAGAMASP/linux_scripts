@@ -1,14 +1,14 @@
 #    The Problem: Write a script that updates a configuration file settings.env. Create a backup settings.env.bak before making changes. Register an ERR trap that restores the backup file if any command fails during execution. Append a new string FEATURE_FLAG=enabled to settings.env, and delete the backup file upon success.
 
 #!/bin/bash
-set -e
+#set -e
 
 CONFIG_FILE="./config"
 BACKUP_FILE="./config.bak"
 
 rollback(){
     echo "Error detected during update"
-    if [-f BACKUP_FILE]; then
+    if [-f "$BACKUP_FILE"]; then
         cp "$BACKUP_FILE" "$CONFIG_FILE"
         echo "Restored original config file."
     fi
@@ -18,7 +18,7 @@ trap rollback ERR
 cp "$CONFIG_FILE" "$BACKUP_FILE"
 echo "HELLO SANKA IDIOT" > "$CONFIG_FILE"
 
-rm -f "$BACKUP_FILE"
+#rm -f "$BACKUP_FILE"
 
 
 

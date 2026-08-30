@@ -7,6 +7,6 @@ SERVICE="nginx"
 if pgrep "$SERVICE" > /dev/null; then
     echo "[OK] Nginx is running"
 else
-    echo "[ALERT] Nginx is down! Attempting restart..."
+    echo "[ALERT] Nginx is down! Attempting restart..." 
     systemctl restart "$SERVICE" 
 fi

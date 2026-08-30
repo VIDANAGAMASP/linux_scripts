@@ -8,4 +8,17 @@ get_ctxt_stats() {
     grep 'ctxt' /proc/stats | awk '{print $2}' 
 }
 
-read -r context<< $(get_ctxt_stats)
+read -r context<<< $(get_ctxt_stats)
+previous_stats="$context"
+sleep 1
+read -r context<<< $(get_ctxt_stats)
+current_stats="$context"
+diff_context=$((current_stats - previous_stats))
+echo "Kernel Context Switches: $diff_context "
+
+#get_cpu_stats() {
+#   grep '^cpu ' /proc/stat | awk '{print $2, $3, $4, $5, $6, $7, $8}'
+#example arguments instead one
+
+#Rad -r user nice sys idle iowait irq softirq <<< $(get_cpu_stats)
+

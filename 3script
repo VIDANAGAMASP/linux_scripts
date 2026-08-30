@@ -1,0 +1,22 @@
+#log File Rotation & Compression (rotate_logs.sh)
+
+#!/bin/bash
+set -eo pipefail
+
+LOG_DIR="./app_logs"
+BACKUP_DIR="./archives"
+DATE=$(date +%Y%m%d_%H%M%S)
+ARCHIVE_NAME="${BACKUP_DIR}/logs_${DATE}.tar.gz"
+
+mkdir -p "$LOG_DIR" "$BACKUP_DIR"
+
+# Find files modified more than 7 days ago
+OLD_LOGS=$(find "$LOG_DIR" -type f -name "*.log" -mtime +7)
+
+if [ -n "$OLD_LOGS" ]; then
+    tar -czf "$ARCHIVE_NAME" $OLD_LOGS
+    echo "$OLD_LOGS" | xargs rm -f
+    echo "Archived old logs to $ARCHIVE_NAME"
+else
+    echo "No log files older than 7 days found."
+fi
