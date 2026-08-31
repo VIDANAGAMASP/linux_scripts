@@ -1,0 +1,14 @@
+#The Problem: Define an array of target IP addresses (e.g., 127.0.0.1, 192.168.1.1, 8.8.8.8). Using pure Bash /dev/tcp without nc or nmap, iterate through the array and probe port 22 (SSH) on each host with a 1-second timeout. Output [REACHABLE] or [UNREACHABLE] for each node.
+
+#/bin/bash
+set -e 
+
+TARGET=(127.0.0.1 192.168.1.1 8.8.8.8)
+
+for i in ${TARGET[@]}; do
+    if timeout 1 bash -c "</dev/tcp/$i/22" &>/dev/null; then
+        echo "Reachable $i"
+    else
+        echo "Unreachable $i"
+    fi
+done
