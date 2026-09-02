@@ -10,7 +10,7 @@ EXP_EPOCH=$(date -d "$EXP_DATE" +%s)
 NOW_EPOCH=$(date +%s)
 DAYS_LEFT=$(( (EXP_EPOCH - NOW_EPOCH) / 86400 ))
 
-if [DAYS_LEFT -lt 60]; then 
+if [ DAYS_LEFT -lt 60 ]; then 
     echo "[ALERT] Certificate for $DOMAIN expires in less than 60 days!"
 else
     echo "Certificate for $DOMAIN is valid for $DAYS_LEFT days."
